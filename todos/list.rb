@@ -7,6 +7,10 @@ class List
   end
 
   def add_task(task)
+
+    raise ArgumentError unless task.respond_to?(:complete?)
+    raise ArgumentError unless task.respond_to?(:complete!)
+    
     tasks << task
   end
 
@@ -15,6 +19,7 @@ class List
   end
 
   def delete_task(index)
+    raise NonExistentTaskError unless tasks[index]
     tasks.delete_at(index)
   end
 
@@ -26,3 +31,5 @@ class List
     tasks.select { |task| !task.complete? }
   end
 end
+
+class NonExistentTaskError < StandardError; end
